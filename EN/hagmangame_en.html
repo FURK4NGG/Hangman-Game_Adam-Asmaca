@@ -1,0 +1,35 @@
+<!DOCTYPE html><html lang="en"><head><title>Hangman Game</title>
+<script src="/JAVASCRIPT/word-list_en.js"></script>
+<style>
+@font-face{font-family:'Montserrat';src:url('/FONTS/Montserrat.woff2')format('woff2');font-style:normal;}
+*{margin:0;padding:0;box-sizing:border-box;font-family:"Montserrat",sans-serif;}
+body{-webkit-user-select: none !important;display:flex;padding:0 10px;align-items:center;justify-content:center;min-height:100vh;background:#5E63BA}
+.container{display:flex;flex-direction: column; width:850px;gap:70px;padding:60px 40px;background:#fff;border-radius:10px;align-items:flex-end;justify-content:space-between;box-shadow:0 10px 20px rgb(0 0 0 / .1)}
+.border_1{display: flex;flex-direction: row;justify-content: space-between;width:100%;}
+.title{width: 80%;display: flex;justify-content: center;}
+#scoreboard {display: flex;justify-content:space-between;background: white;color: black;width: 100%;font-size: 1.2rem;font-weight: bold;padding: 10px 20px;border-radius: 10px;display: inline-block;margin-bottom: 20px;box-shadow: 0 4px 8px rgba(0, 0, 0, 0.32);width: 20%}
+.hangman-box img{user-select:none;max-width:270px}
+.hangman-box h1{font-size:1.45rem;text-align:center;margin-top:20px;text-transform:uppercase}
+.game-box .word-display{gap:10px;list-style:none;display:flex;flex-wrap:wrap;justify-content:center;align-items:center;margin-top: 5rem;}.word-display .letter{width:28px;font-size:2rem;text-align:center;font-weight:600;margin-bottom:40px;text-transform:uppercase;border-bottom:3px solid #000}.word-display .letter.guessed{margin:-40px 0 35px;border-color:#fff0}.game-box h4{text-align:center;font-size:1.1rem;font-weight:500;margin-bottom:15px}.game-box h4 b{font-weight:600}.game-box .guesses-text b{color:red}.game-box .keyboard{display:flex;gap:5px;flex-wrap:wrap;margin-top:40px;justify-content:center}:where(.game-modal,.keyboard) button{color:#fff;border:none;outline:none;cursor:pointer;font-size:1rem;font-weight:600;border-radius:4px;text-transform:uppercase;background:#5E63BA}.keyboard button{padding:7px;width:calc(100% / 9 - 5px)}.keyboard button[disabled]{pointer-events:none;opacity:.6}:where(.game-modal,.keyboard) button:hover{background:#8286c9}.game-modal{position:fixed;top:0;left:0;width:100%;height:100%;opacity:0;pointer-events:none;background:rgb(0 0 0 / .6);display:flex;align-items:center;justify-content:center;z-index:9999;padding:0 10px;transition:opacity 0.4s ease}.game-modal.show{opacity:1;pointer-events:auto;transition:opacity 0.4s 0.4s ease}.game-modal .content{padding:30px;max-width:420px;width:100%;border-radius:10px;background:#fff;text-align:center;box-shadow:0 10px 20px rgb(0 0 0 / .1)}.game-modal img{max-width:130px;margin-bottom:20px}.game-modal img[src="img/victory.gif"]{margin-left:-10px}.game-modal h4{font-size:1.53rem}.game-modal p{font-size:1.15rem;margin:15px 0 30px;font-weight:500}.game-modal p b{color:#5E63BA;font-weight:600}.game-modal button{padding:12px 23px}@media (max-width:782px){.container{flex-direction:column;padding:30px 15px;align-items:center}.hangman-box img{max-width:200px}.hangman-box h1{display:none}.game-box h4{font-size:1rem}.word-display .letter{margin-bottom:35px;font-size:1.7rem}.word-display .letter.guessed{margin:-35px 0 25px}.game-modal img{max-width:120px}.game-modal h4{font-size:1.45rem}.game-modal p{font-size:1.1rem}.game-modal button{padding:10px 18px}}
+</style></head>
+<body><div class="game-modal"><div class="content"><img src="#" alt="gif"><h4>Kaybettin!</h4><p>Doğru kelime:<b>kelime</b></p><button class="play-again">Play Again</button></div></div>
+<div class="container"><div class="border_1"><div class="title"><h1>Hangman Game</h1></div><div id="scoreboard">Skor: <span id="score">0</span></div></div><div class="border_2"><div class="hangman-box"><img src="#" draggable="false" alt="hangman-img"></div><div class="game-box"><ul class="word-display"></ul><h4 class="hint-text">Hint:<b></b></h4><h4 class="guesses-text">Incorrect guesses:<b></b></h4><div class="keyboard"></div></div></div></div>
+<script>
+const wordDisplay=document.querySelector(".word-display"),guessesText=document.querySelector(".guesses-text b"),keyboardDiv=document.querySelector(".keyboard"),hangmanImage=document.querySelector(".hangman-box img"),gameModal=document.querySelector(".game-modal"),playAgainBtn=gameModal.querySelector("button");
+let currentWord,correctLetters,wrongGuessCount;
+const maxGuesses=6;
+let score = 0; // Skor değişkeni
+const scoreDisplay = document.getElementById("score");
+const resetGame=()=>{correctLetters=[];wrongGuessCount=0;hangmanImage.src="img/hangman-0.svg";guessesText.innerText=`${wrongGuessCount} / ${maxGuesses}`;wordDisplay.innerHTML=currentWord.split("").map(() => '<li class="letter"></li>').join("");keyboardDiv.querySelectorAll("button").forEach(btn => btn.disabled=false);gameModal.classList.remove("show");}
+
+const getRandomWord=()=>{const {word,hint} = wordList[Math.floor(Math.random()*wordList.length)];currentWord=word;document.querySelector(".hint-text b").innerText=hint;resetGame();}
+
+const gameOver=(isWin)=>{if(isWin){score++;scoreDisplay.innerText = score;}else{score = 0;scoreDisplay.innerText = score;}const text=isWin?"You found the word:":"The correct word was:";gameModal.querySelector("img").src=`img/${isWin?"victory":"lost"}.gif`;gameModal.querySelector("h4").innerText=isWin?"Congrats!":"Game Over!";gameModal.querySelector("p").innerHTML=`${text} <b>${currentWord}</b>`;gameModal.classList.add("show");}
+
+const initGame=(button,clickedLetter)=>{if(currentWord.includes(clickedLetter)){[...currentWord].forEach((letter,index)=>{if(letter===clickedLetter){correctLetters.push(letter);wordDisplay.querySelectorAll("li")[index].innerText=letter;wordDisplay.querySelectorAll("li")[index].classList.add("guessed");}});} else {wrongGuessCount++;hangmanImage.src=`img/hangman-${wrongGuessCount}.svg`;}button.disabled=true;guessesText.innerText=`${wrongGuessCount} / ${maxGuesses}`;if(wrongGuessCount===maxGuesses) return gameOver(false);if(correctLetters.length===currentWord.length) return gameOver(true);}
+
+// İngilizce harfler
+for(let e=97;e<=122;e++){const btn=document.createElement("button");btn.innerText=String.fromCharCode(e);keyboardDiv.appendChild(btn);btn.addEventListener("click",()=>initGame(btn,String.fromCharCode(e)));}getRandomWord();playAgainBtn.addEventListener("click",getRandomWord);
+
+const disabledKeys=["c","C","x","J","u","I"];const showAlert=e=>{e.preventDefault();return alert("Sorry, you can't view or copy source codes this way!")}
+document.addEventListener("contextmenu",e=>{showAlert(e)});document.addEventListener("keydown",e=>{if((e.ctrlKey&&disabledKeys.includes(e.key))||e.key==="F12"){showAlert(e)}})</script></body></html>
