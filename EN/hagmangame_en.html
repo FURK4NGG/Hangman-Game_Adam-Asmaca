@@ -29,7 +29,4 @@ const gameOver=(isWin)=>{if(isWin){score++;scoreDisplay.innerText = score;}else{
 const initGame=(button,clickedLetter)=>{if(currentWord.includes(clickedLetter)){[...currentWord].forEach((letter,index)=>{if(letter===clickedLetter){correctLetters.push(letter);wordDisplay.querySelectorAll("li")[index].innerText=letter;wordDisplay.querySelectorAll("li")[index].classList.add("guessed");}});} else {wrongGuessCount++;hangmanImage.src=`img/hangman-${wrongGuessCount}.svg`;}button.disabled=true;guessesText.innerText=`${wrongGuessCount} / ${maxGuesses}`;if(wrongGuessCount===maxGuesses) return gameOver(false);if(correctLetters.length===currentWord.length) return gameOver(true);}
 
 // İngilizce harfler
-for(let e=97;e<=122;e++){const btn=document.createElement("button");btn.innerText=String.fromCharCode(e);keyboardDiv.appendChild(btn);btn.addEventListener("click",()=>initGame(btn,String.fromCharCode(e)));}getRandomWord();playAgainBtn.addEventListener("click",getRandomWord);
-
-const disabledKeys=["c","C","x","J","u","I"];const showAlert=e=>{e.preventDefault();return alert("Sorry, you can't view or copy source codes this way!")}
-document.addEventListener("contextmenu",e=>{showAlert(e)});document.addEventListener("keydown",e=>{if((e.ctrlKey&&disabledKeys.includes(e.key))||e.key==="F12"){showAlert(e)}})</script></body></html>
+for(let e=97;e<=122;e++){const btn=document.createElement("button");btn.innerText=String.fromCharCode(e);keyboardDiv.appendChild(btn);btn.addEventListener("click",()=>initGame(btn,String.fromCharCode(e)));}getRandomWord();playAgainBtn.addEventListener("click",getRandomWord);</script></body></html>
