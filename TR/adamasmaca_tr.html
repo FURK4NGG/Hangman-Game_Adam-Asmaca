@@ -66,7 +66,4 @@ for(let e=97;e<=122;e++){const btn=document.createElement("button");btn.innerTex
 // Türkçe karakterler
 const turkishChars=["ç","ğ","ı","ö","ş","ü"];turkishChars.forEach(char=>{const btn=document.createElement("button");btn.innerText=char;keyboardDiv.appendChild(btn);btn.addEventListener("click",()=>initGame(btn,char));});
 
-getRandomWord();playAgainBtn.addEventListener("click",getRandomWord);
-
-const disabledKeys=["c","C","x","J","u","I"];const showAlert=e=>{e.preventDefault();alert("Üzgünüz, kaynak kodlarını bu şekilde görüntüleyemez veya kopyalayamazsınız!")};
-document.addEventListener("contextmenu",e=>showAlert(e));document.addEventListener("keydown",e=>{if((e.ctrlKey&&disabledKeys.includes(e.key))||e.key==="F12"){showAlert(e)}});</script></body></html>
+getRandomWord();playAgainBtn.addEventListener("click",getRandomWord);</script></body></html>
