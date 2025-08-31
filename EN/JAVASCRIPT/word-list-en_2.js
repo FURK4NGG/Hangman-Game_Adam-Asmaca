@@ -99,4 +99,4 @@ wordList=[
 {"word":"cease","hint":"To bring or come to an end."},
 {"word":"convey","hint":"To communicate or make known."},
 {"word":"depict","hint":"To represent or show something in a picture or description."}
-]
+];
