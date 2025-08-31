@@ -1,5 +1,4 @@
 <!DOCTYPE html><html lang="en"><head><title>Adam Asmaca Oyunu</title>
-<script src="/JAVASCRIPT/word-list_tr.js"></script>
 <style>
 @font-face{font-family:'Montserrat';src:url('/FONTS/Montserrat.woff2')format('woff2');font-style:normal;}
 *{margin:0;padding:0;box-sizing:border-box;font-family:"Montserrat",sans-serif;}
@@ -7,7 +6,7 @@ body{-webkit-user-select: none !important;display:flex;padding:0 10px;align-item
 .container{display:flex;flex-direction: column; width: 53rem;gap: 4.4rem;padding: 3.8rem 2.5rem;background:#fff;border-radius:10px;align-items:flex-end;justify-content:space-between;box-shadow:0 10px 20px rgb(0 0 0 / .1)}
 .border_1{display: flex;flex-direction: row;justify-content: space-between;width:100%;}
 .title{width: 80%;display: flex;justify-content: center;}
-#scoreboard {display: flex;justify-content:space-between;background: white;color: black;width: 100%;font-size: 1.2rem;font-weight: bold;padding: .62rem 1.25rem;border-radius: 10px;display: inline-block;margin-bottom: 1.25rem;box-shadow: 0 4px 8px rgba(0, 0, 0, 0.32);width: 20%}
+#scoreboard {display: flex;justify-content:space-between;background: white;color: black;width: 100%;font-size: 1.2rem;font-weight: bold;padding: 0.62rem;border-radius: 10px;display: inline-block;margin-bottom: 1.25rem;box-shadow: 0 4px 8px rgba(0, 0, 0, 0.32);width: 20%}
 .hangman-box img{user-select:none;max-width:270px}
 .game-box .word-display{gap:.62rem;list-style:none;display:flex;flex-wrap:wrap;justify-content:center;align-items:center;margin-top: 5rem;}
 .word-display .letter{width:1.8rem;font-size:2rem;text-align:center;font-weight:600;margin-bottom:2.4rem;text-transform:uppercase;border-bottom:3px solid #000}
@@ -29,6 +28,7 @@ body{-webkit-user-select: none !important;display:flex;padding:0 10px;align-item
 .game-modal p{font-size:1.15rem;margin:15px 0 30px;font-weight:500}
 .game-modal p b{color:#5E63BA;font-weight:600}
 .game-modal button{padding:12px 23px}
+.difficulty{display: flex;flex-direction: column;align-items: center;margin-top: 2rem;}
 @media (max-width:782px){
     .container{padding:1.80rem .94rem;align-items:center}
     .hangman-box img{max-width:200px}
@@ -43,12 +43,25 @@ body{-webkit-user-select: none !important;display:flex;padding:0 10px;align-item
 </style></head>
 <body>
 <div class="game-modal"><div class="content"><img src="#" alt="gif"><h4>Kaybettin!</h4><p>Doğru kelime:<b>kelime</b></p><button class="play-again">Tekrar Oyna</button></div></div><div class="container"><div class="border_1"><div class="title"><h1>Adam Asmaca Oyunu</h1></div><div id="scoreboard">Skor: <span id="score">0</span></div></div><div class="border_2"><div class="hangman-box"><img src="#" draggable="false" alt="hangman-img">
-</div><div class="game-box"><ul class="word-display"></ul><h4 class="hint-text">İpucu:<b></b></h4><h4 class="guesses-text">Yanlış tahminler:<b></b></h4><div class="keyboard"></div></div></div></div>
+</div><div class="game-box"><ul class="word-display"></ul><h4 class="hint-text">İpucu:<b></b></h4><h4 class="guesses-text">Yanlış tahminler:<b></b></h4><div class="keyboard"></div></div>
+<div class="difficulty">
+<h2>Select Difficulty :</h2>
+  <select id="wordlistSelector">
+    <option value="/JAVASCRIPT/word-list-tr_1.js" selected>Easy</option>
+    <option value="/JAVASCRIPT/word-list-tr_2.js">Medium</option>
+    <option value="/JAVASCRIPT/word-list-tr_3.js">Hard</option>
+  </select>
+
+  <script src="/JAVASCRIPT/word-list-tr_1.js" data-wordlist="true"></script>
+</div>
+</div></div>
 <script>
+window.addEventListener("DOMContentLoaded", () => {const selector = document.getElementById("wordlistSelector");selector.selectedIndex = 0;});const selector = document.getElementById("wordlistSelector");function loadWordlist(src) {return new Promise((resolve, reject) => {document.querySelectorAll("script[data-wordlist]").forEach(el => el.remove());const script = document.createElement("script");script.src = src;script.setAttribute("data-wordlist", "true");script.onload = () => resolve();script.onerror = () => reject(new Error("Script yüklenemedi: " + src));document.body.appendChild(script);});}selector.addEventListener("change", async function() {if (this.value) {try {await loadWordlist(this.value);score = 0;scoreDisplay.innerText = score;getRandomWord(); console.log("Yeni wordlist yüklendi:", this.value);} catch (e) {console.error(e);}}});
+
 const wordDisplay=document.querySelector(".word-display"),guessesText=document.querySelector(".guesses-text b"),keyboardDiv=document.querySelector(".keyboard"),hangmanImage=document.querySelector(".hangman-box img"),gameModal=document.querySelector(".game-modal"),playAgainBtn=gameModal.querySelector("button");
 let currentWord,correctLetters,wrongGuessCount;
 const maxGuesses=6;
-let score = 0; // Skor değişkeni
+score = 0; // Skor değişkeni
 const scoreDisplay = document.getElementById("score");
 const resetGame=()=>{correctLetters=[];wrongGuessCount=0;hangmanImage.src="img/hangman-0.svg";guessesText.innerText=`${wrongGuessCount} / ${maxGuesses}`;wordDisplay.innerHTML=currentWord.split("").map(() => '<li class="letter"></li>').join("");keyboardDiv.querySelectorAll("button").forEach(btn => btn.disabled=false);gameModal.classList.remove("show");}
 
