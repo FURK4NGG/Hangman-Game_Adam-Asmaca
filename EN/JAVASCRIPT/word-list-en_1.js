@@ -99,4 +99,4 @@ wordList=[
 {"word":"sugar","hint":"Sweet crystalline substance."},
 {"word":"salt","hint":"A common seasoning for food."},
 {"word":"oil","hint":"Liquid fat used in cooking."}
-]
+];
