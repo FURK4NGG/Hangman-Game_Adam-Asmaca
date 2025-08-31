@@ -99,4 +99,4 @@ wordList=[
 {"word":"yokel","hint":"An uneducated and unsophisticated person from the countryside."},
 {"word":"zephyr","hint":"A soft, gentle breeze."},
 {"word":"sesquipedalian","hint":"Characterized by long words; a person who uses long words."}
-]
+];
