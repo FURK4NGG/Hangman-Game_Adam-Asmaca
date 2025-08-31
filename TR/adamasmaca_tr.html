@@ -59,9 +59,9 @@ const gameOver=(isWin)=>{if(isWin){score++;scoreDisplay.innerText = score;}else{
 const initGame=(button,clickedLetter)=>{if(currentWord.includes(clickedLetter)){[...currentWord].forEach((letter,index)=>{if(letter===clickedLetter){correctLetters.push(letter);wordDisplay.querySelectorAll("li")[index].innerText=letter;wordDisplay.querySelectorAll("li")[index].classList.add("guessed");}});} else {wrongGuessCount++;hangmanImage.src=`img/hangman-${wrongGuessCount}.svg`;}button.disabled=true;guessesText.innerText=`${wrongGuessCount} / ${maxGuesses}`;if(wrongGuessCount===maxGuesses) return gameOver(false);if(correctLetters.length===currentWord.length) return gameOver(true);}
 
 // İngilizce harfler
-for(let e=97;e<=122;e++){const btn=document.createElement("button");btn.innerText=String.fromCharCode(e);keyboardDiv.appendChild(btn);btn.addEventListener("click",()=>initGame(btn,String.fromCharCode(e)));}
+for(let e=97;e<=122;e++){const btn=document.createElement("button");const char = String.fromCharCode(e);btn.innerText=String.fromCharCode(e);btn.setAttribute("aria-label", `${char} harfi`);keyboardDiv.appendChild(btn);btn.addEventListener("click",()=>initGame(btn,String.fromCharCode(e)));}
 
 // Türkçe karakterler
-const turkishChars=["ç","ğ","ı","ö","ş","ü"];turkishChars.forEach(char=>{const btn=document.createElement("button");btn.innerText=char;keyboardDiv.appendChild(btn);btn.addEventListener("click",()=>initGame(btn,char));});
+const turkishChars=["ç","ğ","ı","ö","ş","ü"];turkishChars.forEach(char=>{const btn=document.createElement("button");btn.innerText=char;btn.setAttribute("aria-label", `${char} harfi`);keyboardDiv.appendChild(btn);btn.addEventListener("click",()=>initGame(btn,char));});
 
 getRandomWord();playAgainBtn.addEventListener("click",getRandomWord);</script></body></html>
