@@ -1,5 +1,5 @@
 # Hangman-Game_Adam-Asmaca  
-<img width="1920" height="1080" alt="Image" src="https://github.com/user-attachments/assets/21179395-fd36-4b9a-8768-22a19b25316c" />
+<img width="1920" height="1080" alt="Image" src="https://github.com/user-attachments/assets/f46589c3-5c69-4437-a595-78d6b94718c6" />
 
 <img width="1920" height="1080" alt="Image" src="https://github.com/user-attachments/assets/1eae6d29-85f1-4387-9cc3-a01dee3bd1bd" />
 I forked the project(https://www.codingnepalweb.com/build-hangman-game-html-javascript/) and open-sourced my modifications.  
